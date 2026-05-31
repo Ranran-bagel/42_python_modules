@@ -1,22 +1,16 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    ft_garden_intro.py                                 :+:      :+:    :+:    #
+#    ft_garden_name.py                                  :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: wezhou <wezhou@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/05/26 10:38:55 by wezhou            #+#    #+#              #
-#    Updated: 2026/05/27 19:12:56 by wezhou           ###   ########.fr        #
+#    Created: 2026/05/22 10:41:10 by wezhou            #+#    #+#              #
+#    Updated: 2026/05/22 10:49:25 by wezhou           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-if __name__ == "__main__":
-	name = "Rose"
-	height = "25cm"
-	age = "30 days"
-	print("=== Welcome to My Garden ===")
-	print("Plant: " + name)
-	print("Height: " + height)
-	print("Age: " + age)
-	print()
-	print("=== End of Program ===")
+def	ft_garden_name():
+	name = input("Enter garden name: ")
+	print("Garden: " + name)
+	print("Status: Growing well!")

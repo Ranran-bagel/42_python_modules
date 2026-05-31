@@ -1,22 +1,17 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    ft_garden_intro.py                                 :+:      :+:    :+:    #
+#    ft_count_harvest_iterative.py                      :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: wezhou <wezhou@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/05/26 10:38:55 by wezhou            #+#    #+#              #
-#    Updated: 2026/05/27 19:12:56 by wezhou           ###   ########.fr        #
+#    Created: 2026/05/22 11:22:41 by wezhou            #+#    #+#              #
+#    Updated: 2026/05/22 11:28:05 by wezhou           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-if __name__ == "__main__":
-	name = "Rose"
-	height = "25cm"
-	age = "30 days"
-	print("=== Welcome to My Garden ===")
-	print("Plant: " + name)
-	print("Height: " + height)
-	print("Age: " + age)
-	print()
-	print("=== End of Program ===")
+def	ft_count_harvest_iterative():
+	until_har = int(input("Days until harvest: "))
+	for i in range(1, until_har + 1):
+		print(f"Day {i}")
+	print("Harvest time!")

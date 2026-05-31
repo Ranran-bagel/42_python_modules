@@ -1,22 +1,24 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    ft_garden_intro.py                                 :+:      :+:    :+:    #
+#    ft_count_harvest_recursive.py                      :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: wezhou <wezhou@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/05/26 10:38:55 by wezhou            #+#    #+#              #
-#    Updated: 2026/05/27 19:12:56 by wezhou           ###   ########.fr        #
+#    Created: 2026/05/22 11:28:23 by wezhou            #+#    #+#              #
+#    Updated: 2026/05/22 20:54:29 by wezhou           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-if __name__ == "__main__":
-	name = "Rose"
-	height = "25cm"
-	age = "30 days"
-	print("=== Welcome to My Garden ===")
-	print("Plant: " + name)
-	print("Height: " + height)
-	print("Age: " + age)
-	print()
-	print("=== End of Program ===")
+def	ft_helper_recursive(n: int):
+	if n <= 1:
+		print(f"Day {n}")
+		return
+	ft_helper_recursive(n - 1)
+	print(f"Day {n}")
+	
+
+def	ft_count_harvest_recursive():
+	until_har = int(input("Days until harvest: "))
+	ft_helper_recursive(until_har)
+	print("Harvest time!")

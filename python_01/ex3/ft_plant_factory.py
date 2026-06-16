@@ -6,23 +6,23 @@
 #    By: wezhou <wezhou@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/26 12:12:30 by wezhou            #+#    #+#              #
-#    Updated: 2026/05/27 19:12:39 by wezhou           ###   ########.fr        #
+#    Updated: 2026/06/01 13:20:55 by wezhou           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 class Plant():
-	def __init__(self, name: str, height: float, age: int):
+	def __init__(self, name: str, height: float, age: int) -> None:
 		self.name = name
 		self.height = height
 		self.age_days = age
 
-	def show(self):
+	def show(self) -> None:
 		print(f"{self.name}: {self.height:g}cm, {self.age_days} days old")
 
-	def age(self, time: int):
+	def age(self, time: int) -> None:
 		self.age_days += time
 
-	def grow(self, growth_rate: float):
+	def grow(self, growth_rate: float) -> None:
 		for i in range(7):
 			self.height += growth_rate
 			self.age(1)

@@ -6,7 +6,7 @@
 #    By: wezhou <wezhou@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/06/20 21:30:41 by wezhou            #+#    #+#              #
-#    Updated: 2026/06/22 11:03:21 by wezhou           ###   ########.fr        #
+#    Updated: 2026/06/22 11:51:13 by wezhou           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ def secure_archive(file_name: str, action: str = "r", content: str = "") -> tupl
         return (False, f"{error}")
 
 
-if __name__ == "__main__":
+def main() -> None:
     print("=== Cyber Archives Security ===")
     print()
     print("Using 'secure_archive' to read from a nonexistent file:")
@@ -45,3 +45,8 @@ if __name__ == "__main__":
         print(written_file)
     else:
         print("No content to write.")
+
+
+
+if __name__ == "__main__":
+    main()

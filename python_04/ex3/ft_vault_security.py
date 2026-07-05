@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    ft_vault_security.py                               :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: wezhou <wezhou@student.42tokyo.jp>         +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/06/20 21:30:41 by wezhou            #+#    #+#              #
-#    Updated: 2026/06/22 11:51:13 by wezhou           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 def secure_archive(file_name: str, action: str = "r", content: str = "") -> tuple[bool, str]:
     if action not in ["r", "w"]:
         return (False, "Unknown archive action")

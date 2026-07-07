@@ -1,38 +1,31 @@
-class Plant():
-	def __init__(self, name: str, height: float, age: int) -> None:
-		self.name = name
-		self.height = height
-		self.age_days = age
+class Plant:
+    def __init__(self, name: str, height: float, age: int) -> None:
+        self.name = name
+        self.height = height
+        self.age_days = age
 
-	def show(self) -> None:
-		print(f"{self.name}: {self.height:g}cm, {self.age_days} days old")
+    def show(self) -> None:
+        print(f"{self.name}: {self.height:.1f}cm, {self.age_days} days old")
 
-	def age(self, time: int) -> None:
-		self.age_days += time
+    def age(self, time: int) -> None:
+        self.age_days += time
 
-	def grow(self, growth_rate: float) -> None:
-		for i in range(7):
-			self.height += growth_rate
-			self.age(1)
-			print(f"=== Day {i + 1} ===")
-			print(f"{self.name}: {round(self.height, 1)}cm, {self.age_days} days old")
-		week_growth = growth_rate * 7
-		print(f"Growth this week: {round(week_growth, 1)}cm")
+    def grow(self, growth_rate: float) -> None:
+        self.height += growth_rate
+
+
+def main() -> None:
+    rose = Plant("Rose", 25, 30)
+    oak = Plant("Oak", 200, 365)
+    cactus = Plant("Cactus", 5, 90)
+    sunflower = Plant("Sunflower", 80, 45)
+    fern = Plant("Fern", 15, 120)
+    plant_list = [rose, oak, cactus, sunflower, fern]
+    print("=== Plant Factory Output ===")
+    for plant in plant_list:
+        print("Created: ", end="")
+        plant.show()
+
 
 if __name__ == "__main__":
-	rose = Plant("Rose", 25, 30)
-	oak = Plant("Oak", 200, 365)
-	cactus = Plant("Cactus", 5, 90)
-	sunflower = Plant("Sunflower", 80, 45)
-	fern = Plant("Fern", 15, 120)
-	print("=== Plant Factory Output ===")
-	print("Created: ", end="")
-	rose.show()
-	print("Created: ", end="")
-	oak.show()
-	print("Created: ", end="")
-	cactus.show()
-	print("Created: ", end="")
-	sunflower.show()
-	print("Created: ", end="")
-	fern.show()
+    main()

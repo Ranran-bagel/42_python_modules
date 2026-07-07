@@ -1,10 +1,14 @@
+def main() -> None:
+    name = "Rose"
+    height = 25
+    age = 30
+    print("=== Welcome to My Garden ===")
+    print(f"Plant: {name}")
+    print(f"Height: {height}cm")
+    print(f"Age: {age} days")
+    print()
+    print("=== End of Program ===")
+
+
 if __name__ == "__main__":
-	name = "Rose"
-	height = "25cm"
-	age = "30 days"
-	print("=== Welcome to My Garden ===")
-	print("Plant: " + name)
-	print("Height: " + height)
-	print("Age: " + age)
-	print()
-	print("=== End of Program ===")
+    main()

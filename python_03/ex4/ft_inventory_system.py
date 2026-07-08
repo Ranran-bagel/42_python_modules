@@ -1,20 +1,21 @@
 import sys
 
+
 def main() -> None:
     print("=== Inventory System Analysis ===")
-    inventory = {}
+    inventory: dict[str, int] = {}
     for arg in sys.argv[1:]:
-        item = arg.split(':')
-        if len(item) != 2:
+        parts = arg.split(':')
+        if len(parts) != 2:
             print(f"Error - invalid parameter '{arg}'")
             continue
         else:
-            item_name = item[0]
+            item_name = parts[0]
             if item_name in inventory:
-                print(f"Redundant item '{item_name}' - discarding")
+                print(f"Redundant parts '{item_name}' - discarding")
                 continue
             try:
-                item_quantity = int(item[1])
+                item_quantity = int(parts[1])
             except ValueError as error:
                 print(f"Quantity error for '{item_name}': {error}")
                 continue
@@ -49,6 +50,7 @@ def main() -> None:
     print(f"Item least abundant: {least_item} with quantity {least_quantity}")
     inventory.update({"magic_item": 1})
     print(f"Updated inventory: {inventory}")
+
 
 if __name__ == "__main__":
     main()

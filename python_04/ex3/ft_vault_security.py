@@ -1,4 +1,7 @@
-def secure_archive(file_name: str, action: str = "r", content: str = "") -> tuple[bool, str]:
+def secure_archive(file_name: str,
+                   action: str = "r",
+                   content: str = ""
+                   ) -> tuple[bool, str]:
     if action not in ["r", "w"]:
         return (False, "Unknown archive action")
     try:
@@ -24,7 +27,7 @@ def main() -> None:
     print(inaccessible_file)
     print()
     print("Using 'secure_archive' to read from a regular file:")
-    regular_file = secure_archive("fragment.txt", "r")
+    regular_file = secure_archive("ancient_fragment.txt", "r")
     print(regular_file)
     print()
     print("Using 'secure_archive' to write previous content to a new file:")
@@ -33,7 +36,6 @@ def main() -> None:
         print(written_file)
     else:
         print("No content to write.")
-
 
 
 if __name__ == "__main__":

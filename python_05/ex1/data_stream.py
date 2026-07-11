@@ -61,7 +61,7 @@ class NumericProcessor(DataProcessor):
         else:
             raise Exception("Improper numeric data")
 
-   
+
 class TextProcessor(DataProcessor):
     def __init__(self) -> None:
         super().__init__("Text Processor")
@@ -147,7 +147,8 @@ class DataStream:
                     processed = True
                     break
             if not processed:
-                print(f"DataStream error - Can't process element in stream: {item}")
+                print("DataStream error - Can't "
+                      f"process element in stream: {item}")
 
     def print_processors_stats(self) -> None:
         has_any_processor = False
@@ -165,6 +166,22 @@ def main() -> None:
     numeric_processor = NumericProcessor()
     text_processor = TextProcessor()
     log_processor = LogProcessor()
+    first_batch: list[typing.Any] = [
+        "Hello world",
+        [3.14, -1, 2.71],
+        [
+            {
+                "log_level": "WARNING",
+                "log_message": "Telnet access! Use ssh instead",
+            },
+            {
+                "log_level": "INFO",
+                "log_message": "User wil is connected",
+            },
+        ],
+        42,
+        ["Hi", "five"],
+    ]
     print("=== Code Nexus - Data Stream ===")
     print()
     print("Initialize Data Stream...")
@@ -174,15 +191,8 @@ def main() -> None:
     print("Registering Numeric Processor")
     data_stream.register_processor(numeric_processor)
     print()
-    print("Send first batch of data on stream: "
-          "['Hello world', [3.14, -1, 2.71], [{'log_level': 'WARNING', "
-          "'log_message': 'Telnet access! Use ssh instead'}, {'log_level': 'INFO', "
-          "'log_message': 'User wil is connected'}], 42, ['Hi', 'five']]")
-    data_stream.process_stream(['Hello world', [3.14, -1, 2.71],
-                               [{'log_level': 'WARNING', 'log_message': 
-                                   'Telnet access! Use ssh instead'},
-                                {'log_level': 'INFO', 'log_message':
-                                    'User wil isconnected'}], 42, ['Hi', 'five']])
+    print(f"Send first batch of data on stream: {first_batch}")
+    data_stream.process_stream(first_batch)
     print("== DataStream statistics ==")
     data_stream.print_processors_stats()
     print()
@@ -190,18 +200,15 @@ def main() -> None:
     data_stream.register_processor(text_processor)
     data_stream.register_processor(log_processor)
     print("Send the same batch again")
-    data_stream.process_stream(['Hello world', [3.14, -1, 2.71],
-                               [{'log_level': 'WARNING', 'log_message': 
-                                   'Telnet access! Use ssh instead'},
-                                {'log_level': 'INFO', 'log_message':
-                                    'User wil is connected'}], 42, ['Hi', 'five']])
+    data_stream.process_stream(first_batch)
     print("== DataStream statistics ==")
     data_stream.print_processors_stats()
     print()
-    print("Consume some elements from the data processors: Numeric 3, Text 2, Log 1")
-    for i in range(3):
+    print("Consume some elements from the data processors: "
+          "Numeric 3, Text 2, Log 1")
+    for _ in range(3):
         numeric_processor.output()
-    for i in range(2):
+    for _ in range(2):
         text_processor.output()
     log_processor.output()
     print("== DataStream statistics ==")

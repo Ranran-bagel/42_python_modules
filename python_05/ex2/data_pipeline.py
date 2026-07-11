@@ -26,12 +26,11 @@ class DataProcessor(ABC):
         pass
 
     def output(self) -> tuple[int, str]:
-        if self._data:
-            res = self._data[0]
-            del self._data[0]
-            return res
-        else:
+        if not self._data:
             raise Exception("No data to output")
+        res = self._data[0]
+        del self._data[0]
+        return res
 
 
 class NumericProcessor(DataProcessor):
@@ -151,6 +150,7 @@ class JSONExporter:
         print("JSON Output:")
         print("{" + ", ".join(items) + "}")
 
+
 class DataStream:
     def __init__(self) -> None:
         self._processors: list[DataProcessor] = []
@@ -167,7 +167,8 @@ class DataStream:
                     processed = True
                     break
             if not processed:
-                print(f"DataStream error - Can't process element in stream: {item}")
+                print("DataStream error - Can't"
+                      f" process element in stream: {item}")
 
     def print_processors_stats(self) -> None:
         has_any_processor = False
@@ -180,15 +181,13 @@ class DataStream:
             print("No processor found, no data")
 
     def output_pipeline(self, nb: int, plugin: ExportPlugin) -> None:
-        nb_origin = nb
         for proc in self._processors:
-            collected = []
-            if proc.get_remaining_count() < nb_origin:
-                nb_cur = proc.get_remaining_count()
-            else:
-                nb_cur = nb_origin
-            for i in range(nb_cur):
+            collected: list[tuple[int, str]] = []
+            count = min(nb, proc.get_remaining_count())
+
+            for _ in range(count):
                 collected.append(proc.output())
+
             if collected:
                 plugin.process_output(collected)
 
@@ -216,10 +215,11 @@ def main() -> None:
           "'INFO', 'log_message': 'User wil is "
           "connected'}], 42, ['Hi', 'five']]")
     data_stream.process_stream(['Hello world', [3.14, -1, 2.71],
-                               [{'log_level': 'WARNING', 'log_message': 
+                               [{'log_level': 'WARNING', 'log_message':
                                    'Telnet access! Use ssh instead'},
                                 {'log_level': 'INFO', 'log_message':
-                                    'User wil is connected'}], 42, ['Hi', 'five']])
+                                    'User wil is connected'}],
+                               42, ['Hi', 'five']])
     print()
     print("== DataStream statistics ==")
     data_stream.print_processors_stats()
@@ -233,12 +233,16 @@ def main() -> None:
     data_stream.print_processors_stats()
     print()
     print("Send another batch of data: [21, "
-          "['I love AI', 'LLMs are wonderful', 'Stay healthy'], [{'log_level': "
-          "'ERROR', 'log_message': '500 server crash'}, {'log_level': 'NOTICE',"
+          "['I love AI', 'LLMs are wonderful',"
+          " 'Stay healthy'], [{'log_level': "
+          "'ERROR', 'log_message': "
+          "'500 server crash'}, {'log_level': 'NOTICE',"
           " 'log_message': 'Certificate expires in 10 days'}],"
           " [32, 42, 64, 84, 128, 168], 'World hello']")
-    data_stream.process_stream([21, ['I love AI', 'LLMs are wonderful', 'Stay healthy'],
-                                [{'log_level': 'ERROR', 'log_message': '500 server crash'},
+    data_stream.process_stream([21, ['I love AI',
+                                     'LLMs are wonderful', 'Stay healthy'],
+                                [{'log_level': 'ERROR',
+                                  'log_message': '500 server crash'},
                                  {'log_level': 'NOTICE', 'log_message':
                                      'Certificate expires in 10 days'}],
                                 [32, 42, 64, 84, 128, 168], 'World hello'])

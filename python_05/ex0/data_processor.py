@@ -3,9 +3,10 @@ from abc import ABC, abstractmethod
 
 
 class DataProcessor(ABC):
-    def  __init__(self) -> None:
+    def __init__(self) -> None:
         self._data: list[tuple[int, str]] = []
-        self._rank:int = 0
+        self._rank: int = 0
+
     @abstractmethod
     def validate(self, data: typing.Any) -> bool:
         pass
@@ -15,12 +16,11 @@ class DataProcessor(ABC):
         pass
 
     def output(self) -> tuple[int, str]:
-        if self._data:
-            res = self._data[0]
-            del self._data[0]
-            return res
-        else:
+        if not self._data:
             raise Exception("No data to output")
+        res = self._data[0]
+        del self._data[0]
+        return res
 
 
 class NumericProcessor(DataProcessor):
@@ -47,18 +47,17 @@ class NumericProcessor(DataProcessor):
         else:
             raise Exception("Improper numeric data")
 
-   
+
 class TextProcessor(DataProcessor):
-    def validate(self, data: typing.Any) -> bool:
-        if isinstance(data, str):
-            return True
-        elif isinstance(data, list):
-            for item in data:
-                if not isinstance(item, str):
-                    return False
-            return True
-        else:
+    def _validate_log(self, data: dict[typing.Any, typing.Any]) -> bool:
+        if "log_level" not in data or "log_message" not in data:
             return False
+        for key in data:
+            if not isinstance(key, str):
+                return False
+            if not isinstance(data[key], str):
+                return False
+        return True
 
     def ingest(self, data: str | list[str]) -> None:
         if self.validate(data):
@@ -81,15 +80,17 @@ class LogProcessor(DataProcessor):
                     return False
                 if not isinstance(data[key], str):
                     return False
-            return True 
+            return True
         elif isinstance(data, list):
             for item in data:
+                if not isinstance(item, dict):
+                    return False
                 for key in item:
                     if not isinstance(key, str):
                         return False
                     if not isinstance(item[key], str):
                         return False
-                return True 
+            return True
         else:
             return False
 
@@ -109,67 +110,74 @@ class LogProcessor(DataProcessor):
 
 
 def main() -> None:
-    numericprocessor = NumericProcessor()
-    textprocessor = TextProcessor()
-    logprocessor = LogProcessor()
+    numeric_processor = NumericProcessor()
+    text_processor = TextProcessor()
+    log_processor = LogProcessor()
     print("=== Code Nexus - Data Processor ===")
     print()
     print("Testing Numeric Processor...")
-    print(f"Trying to validate input '42': {numericprocessor.validate(42)}")
-    print(f"Trying to validate input 'Hello': {numericprocessor.validate('Hello')}")
+    print(f"Trying to validate input '42': {numeric_processor.validate(42)}")
+    print("Trying to validate input 'Hello':"
+          f" {numeric_processor.validate('Hello')}")
     print("Test invalid ingestion of string 'foo' without prior validation:")
     try:
-        numericprocessor.ingest("foo")
+        numeric_processor.ingest("foo")
     except Exception as error:
         print(f"Got exception: {error}")
     print("Processing data: [1, 2, 3, 4, 5]")
-    is_validated = numericprocessor.validate([1, 2, 3, 4, 5])
+    is_validated = numeric_processor.validate([1, 2, 3, 4, 5])
     if is_validated:
         try:
-            numericprocessor.ingest([1, 2, 3, 4, 5])
+            numeric_processor.ingest([1, 2, 3, 4, 5])
         except Exception as error:
             print(f"Got exception: {error}")
     print("Extracting 3 values...")
-    rank, value = numericprocessor.output()
+    rank, value = numeric_processor.output()
     print(f"Numeric value {rank}: {value}")
-    rank, value = numericprocessor.output()
+    rank, value = numeric_processor.output()
     print(f"Numeric value {rank}: {value}")
-    rank, value = numericprocessor.output()
+    rank, value = numeric_processor.output()
     print(f"Numeric value {rank}: {value}")
     print()
     print("Testing Text Processor...")
-    print(f"Trying to validate input '42': {textprocessor.validate(42)}")
+    print(f"Trying to validate input '42': {text_processor.validate(42)}")
     print("Processing data: ['Hello', 'Nexus', 'World']")
-    is_validated = textprocessor.validate(['Hello', 'Nexus', 'World'])
+    is_validated = text_processor.validate(['Hello', 'Nexus', 'World'])
     if is_validated:
         try:
-            textprocessor.ingest(['Hello', 'Nexus', 'World'])
+            text_processor.ingest(['Hello', 'Nexus', 'World'])
         except Exception as error:
             print(f"Got exception: {error}")
-    print("Extracting 1 values...")
-    print(f"Text value {textprocessor.output()}")
+    print("Extracting 1 value...")
+    rank, value = text_processor.output()
+    print(f"Text value {rank}: {value}")
     print()
     print("Testing Log Processor...")
-    print(f"Trying to validate input 'Hello': {logprocessor.validate('Hello')}")
+    print("Trying to validate input 'Hello':"
+          f" {log_processor.validate('Hello')}")
     print("Processing data: [{'log_level': "
           "'NOTICE', 'log_message': 'Connection to server'}, "
           "{'log_level': 'ERROR', 'log_message': 'Unauthorized access!!'}]")
-    is_validated = logprocessor.validate([{'log_level': 'NOTICE',
-                                            'log_message': 'Connection to server'},
-                                           {'log_level': 'ERROR', 'log_message':
-                                               'Unauthorized access!!'}])
+    log_data = [
+        {
+            "log_level": "NOTICE",
+            "log_message": "Connection to server",
+        },
+        {
+            "log_level": "ERROR",
+            "log_message": "Unauthorized access!!",
+        },
+    ]
+    is_validated = log_processor.validate(log_data)
     if is_validated:
         try:
-            logprocessor.ingest([{'log_level': 'NOTICE',
-                                            'log_message': 'Connection to server'},
-                                           {'log_level': 'ERROR', 'log_message':
-                                               'Unauthorized access!!'}])
+            log_processor.ingest(log_data)
         except Exception as error:
             print(f"Got exception: {error}")
     print("Extracting 2 values...")
-    rank, value = logprocessor.output()
+    rank, value = log_processor.output()
     print(f"Log entry {rank}: {value}")
-    rank, value = logprocessor.output()
+    rank, value = log_processor.output()
     print(f"Log entry {rank}: {value}")
 
 

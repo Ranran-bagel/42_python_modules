@@ -49,15 +49,16 @@ class NumericProcessor(DataProcessor):
 
 
 class TextProcessor(DataProcessor):
-    def _validate_log(self, data: dict[typing.Any, typing.Any]) -> bool:
-        if "log_level" not in data or "log_message" not in data:
+    def validate(self, data: typing.Any) -> bool:
+        if isinstance(data, str):
+            return True
+        elif isinstance(data, list):
+            for item in data:
+                if not isinstance(item, str):
+                    return False
+            return True
+        else:
             return False
-        for key in data:
-            if not isinstance(key, str):
-                return False
-            if not isinstance(data[key], str):
-                return False
-        return True
 
     def ingest(self, data: str | list[str]) -> None:
         if self.validate(data):
@@ -73,26 +74,28 @@ class TextProcessor(DataProcessor):
 
 
 class LogProcessor(DataProcessor):
+    def _validate_log(self, data: dict[typing.Any, typing.Any]) -> bool:
+        if "log_level" not in data or "log_message" not in data:
+            return False
+        for key in data:
+            if not isinstance(key, str):
+                return False
+            if not isinstance(data[key], str):
+                return False
+        return True
+
     def validate(self, data: typing.Any) -> bool:
         if isinstance(data, dict):
-            for key in data:
-                if not isinstance(key, str):
-                    return False
-                if not isinstance(data[key], str):
-                    return False
-            return True
-        elif isinstance(data, list):
+            return self._validate_log(data)
+        if isinstance(data, list):
             for item in data:
                 if not isinstance(item, dict):
                     return False
-                for key in item:
-                    if not isinstance(key, str):
-                        return False
-                    if not isinstance(item[key], str):
-                        return False
+                if not self._validate_log(item):
+                    return False
             return True
-        else:
-            return False
+        return False
+
 
     def ingest(self, data: dict[str, str] | list[dict[str, str]]) -> None:
         if self.validate(data):

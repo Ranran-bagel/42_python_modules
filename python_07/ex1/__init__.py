@@ -1,7 +1,11 @@
-from .factories import CreatureFactory
-from .factories import HealingCreatureFactory, TransformCreatureFactory
-from .capabilities import HealCapability, TransformCapability
+from .factories import (
+    CreatureFactory,
+    HealingCreatureFactory,
+    TransformCreatureFactory,
+)
 
-__all__ = ["CreatureFactory",
-           "HealingCreatureFactory", "TransformCreatureFactory",
-           "HealCapability", "TransformCapability"]
+__all__ = [
+    "CreatureFactory",
+    "HealingCreatureFactory",
+    "TransformCreatureFactory",
+]

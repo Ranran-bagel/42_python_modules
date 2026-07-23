@@ -1,11 +1,19 @@
-from ex0 import AquaFactory, FlameFactory
-from ex0 import CreatureFactory
-from ex2 import AggressiveStrategy, DefensiveStrategy, NormalStrategy
-from ex2 import BattleStrategy, InvalidStrategyError
+from ex0 import AquaFactory, CreatureFactory, FlameFactory
+from ex0.creatures import Creature
 from ex1 import HealingCreatureFactory, TransformCreatureFactory
+from ex2 import (
+    AggressiveStrategy,
+    BattleStrategy,
+    DefensiveStrategy,
+    InvalidStrategyError,
+    NormalStrategy,
+)
 
 
-def run_action(strategy: BattleStrategy, creature) -> None:
+def run_action(
+    strategy: BattleStrategy,
+    creature: Creature,
+) -> None:
     for line in strategy.act(creature):
         print(line)
 
@@ -16,7 +24,7 @@ def run_tournament(
     print("*** Tournament ***")
     print(f"{len(opponents)} opponents involved")
     print()
-    creatures = []
+    creatures: list[tuple[Creature, BattleStrategy]] = []
     for factory, strategy in opponents:
         creatures.append((factory.create_base(), strategy))
     for i in range(len(creatures)):

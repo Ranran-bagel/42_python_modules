@@ -1,6 +1,7 @@
 import typing
+
 from ex1 import HealingCreatureFactory, TransformCreatureFactory
-from ex1 import HealCapability, TransformCapability
+from ex1.capabilities import HealCapability, TransformCapability
 
 
 def test_healing_creatures() -> None:

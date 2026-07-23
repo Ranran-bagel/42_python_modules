@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from ex0 import AquaFactory, CreatureFactory, FlameFactory
 from ex0.creatures import Creature
 from ex1 import HealingCreatureFactory, TransformCreatureFactory

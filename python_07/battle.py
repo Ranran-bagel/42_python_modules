@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from ex0 import CreatureFactory, FlameFactory, AquaFactory
 
 
@@ -6,7 +7,6 @@ def test_factory(factory: CreatureFactory) -> None:
     evolved_creature = factory.create_evolved()
     print(base_creature.describe())
     print(base_creature.attack())
-    print()
     print(evolved_creature.describe())
     print(evolved_creature.attack())
 

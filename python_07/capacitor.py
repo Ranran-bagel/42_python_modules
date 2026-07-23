@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import typing
 
 from ex1 import HealingCreatureFactory, TransformCreatureFactory

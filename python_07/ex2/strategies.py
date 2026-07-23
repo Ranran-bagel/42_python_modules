@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from ex1.creatures import Creature
+from ex0.creatures import Creature
 from ex1.capabilities import HealCapability, TransformCapability
 from .exceptions import InvalidStrategyError
 import typing

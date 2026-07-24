@@ -16,14 +16,14 @@ def load_environment() -> bool:
 
 
 def get_config() -> dict[str, str | None]:
-    config = {}
+    config: dict[str, str | None] = {}
     for key in REQUIRED_KEYS:
         config[key] = os.getenv(key)
     return config
 
 
 def print_missing_config(config: dict[str, str | None]) -> None:
-    missing = []
+    missing: list[str] = []
     for key, value in config.items():
         if value is None or value == "":
             missing.append(key)

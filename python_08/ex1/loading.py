@@ -7,7 +7,7 @@ def check_package(name: str, purpose: str) -> bool:
         version = getattr(module, "__version__", "unknown")
         print(f"[OK] {name} ({version}) - {purpose} ready")
         return True
-    except ModuleNotFoundError:
+    except ImportError:
         print(f"[MISSING] {name} - {purpose} unavailable")
         return False
 
@@ -19,7 +19,7 @@ def check_dependencies() -> bool:
         ("matplotlib", "Visualization"),
     ]
 
-    missing_packages = []
+    missing_packages: list[str] = []
     print("Checking dependencies:")
     for name, purpose in packages:
         if not check_package(name, purpose):

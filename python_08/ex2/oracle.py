@@ -12,7 +12,7 @@ REQUIRED_KEYS = [
 
 
 def load_environment() -> bool:
-    return load_dotenv()
+    return bool(load_dotenv())
 
 
 def get_config() -> dict[str, str | None]:

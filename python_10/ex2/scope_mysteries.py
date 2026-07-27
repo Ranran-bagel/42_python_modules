@@ -1,15 +1,23 @@
 #!/usr/bin/env python3
 from collections.abc import Callable
+from typing import TypedDict
 
 
 Counter = Callable[[], int]
 Accumulator = Callable[[int], int]
-Factory = Callable([str], str)
-Store = Callable([])
+Factory = Callable[[str], str]
+Store = Callable[[str, object], None]
+Recall = Callable[[str], object]
+
+
+class VaultFunctions(TypedDict):
+    store: Store
+    recall: Recall
 
 
 def mage_counter() -> Counter:
     count = 0
+
     def counter() -> int:
         nonlocal count
         count += 1
@@ -19,6 +27,7 @@ def mage_counter() -> Counter:
 
 def spell_accumulator(initial_power: int) -> Accumulator:
     total = initial_power
+
     def accumulator(amount: int) -> int:
         nonlocal total
         total += amount
@@ -27,17 +36,20 @@ def spell_accumulator(initial_power: int) -> Accumulator:
 
 
 def enchantment_factory(enchantment_type: str) -> Factory:
+
     def factory(item_name: str) -> str:
         return f"{enchantment_type} {item_name}"
     return factory
 
 
-def memory_vault() -> dict[str, Callable]:
+def memory_vault() -> VaultFunctions:
     storage = dict()
-    def store(key: str, value: str) -> None:
+
+    def store(key: str, value: object) -> None:
         storage.update({key: value})
+
     def recall(key: str) -> str:
-        return storage.get([key], "Memory not found")
+        return storage.get(key, "Memory not found")
     return {"store": store, "recall": recall}
 
 
@@ -61,7 +73,7 @@ def spell_accumulator_tester() -> None:
 
 
 def enchantment_factory_tester() -> None:
-    enchantment_types= ["Flaming", "Frozen"]
+    enchantment_types = ["Flaming", "Frozen"]
     item_names = ["Sword", "Shield"]
     print("Testing enchantment factory...")
     for enchantment_type in enchantment_types:
@@ -71,12 +83,14 @@ def enchantment_factory_tester() -> None:
 
 
 def memory_vault_tester() -> None:
-    storage = memory_vault()
+    vault = memory_vault()
     print("Testing memory vault...")
-    storage["store"]("secret", 42)
+    vault["store"]("secret", 42)
     print("Store 'secret' = 42")
-    print(f"Recall 'secret': {storage["recall"]("secret")}")
-    print(f"Recall 'unknown': {storage["recall"]("unknown")}")
+    secret = vault["recall"]("secret")
+    print(f"Recall 'secret': {secret}")
+    unknown = vault["recall"]("unknown")
+    print(f"Recall 'unknown': {unknown}")
 
 
 def main() -> None:

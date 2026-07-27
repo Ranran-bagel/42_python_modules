@@ -43,7 +43,8 @@ class SpaceMission(BaseModel):
                 has_commander_or_captain = True
                 break
         if not has_commander_or_captain:
-            raise ValueError("Must have at least one Commander or Captain")
+            raise ValueError("Mission must have at"
+                             " least one Commander or Captain")
         if self.duration_days > 365:
             total_crew = len(self.crew)
             experienced_crew = [
@@ -52,8 +53,8 @@ class SpaceMission(BaseModel):
                 if crew_member.years_experience >= 5
                 ]
             if len(experienced_crew) / total_crew < 0.5:
-                raise ValueError(" Long missions (> 365 days) need 50"
-                                 "% experienced crew (5+ years)")
+                raise ValueError("Long missions (> 365 days) need 50% "
+                                 "experienced crew (5+ years)")
         for crew_member in self.crew:
             if not crew_member.is_active:
                 raise ValueError("All crew members must be active")

@@ -77,7 +77,7 @@ def main() -> None:
             message_received="Greetings from Zeta Reticuli"
         )
     except ValidationError as err:
-        msg = str(err.errors()[0]["msg"])
+        msg = err.errors()[0]["msg"]
         if msg.startswith("Value error, "):
             msg = msg[len("Value error, "):]
         print(msg)

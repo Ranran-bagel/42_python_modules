@@ -14,9 +14,7 @@ def spell_timer(func: Callable[P, R]) -> Callable[P, R]:
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
         print(f"Casting {func.__name__}...")
         time_before = time.time()
-
         result = func(*args, **kwargs)
-
         cost_time = time.time() - time_before
         print(f"Spell completed in {cost_time:.3f} seconds")
 
@@ -41,16 +39,12 @@ def power_validator(
         @wraps(func)
         def wrapper(*args: P.args, **kwargs: P.kwargs) -> str:
             power: object | None = kwargs.get("power")
-
             if power is None:
                 if not args:
                     raise TypeError("Power argument is missing")
-
                 power = args[-1]
-
             if not isinstance(power, int):
                 raise TypeError("Power must be int")
-
             if power < min_power:
                 return "Insufficient power for this spell"
 
@@ -159,10 +153,8 @@ def mage_guild_tester() -> None:
 def main() -> None:
     spell_timer_tester()
     print()
-
     retry_spell_tester()
     print()
-
     mage_guild_tester()
 
 

@@ -32,14 +32,16 @@ def enchant(power: int, element: str, target: str) -> str:
     return f"{element} enchantment on {target} with {power} power"
 
 
-def partial_enchanter(base_enchantment: Enchant) -> dict[str, partial[str]]:
+def partial_enchanter(
+        base_enchantment: Enchant
+        ) -> dict[str, partial[str]]:
     enchanters = dict()
     fire_enchanter = partial(base_enchantment, 20, "fire")
     ice_enchanter = partial(base_enchantment, 20, "ice")
-    lighting_enchanter = partial(base_enchantment, 20, "lighting")
+    lightning_enchanter = partial(base_enchantment, 20, "lightning")
     enchanters["fire"] = fire_enchanter
     enchanters["ice"] = ice_enchanter
-    enchanters["lighting"] = lighting_enchanter
+    enchanters["lightning"] = lightning_enchanter
     return enchanters
 
 
@@ -64,7 +66,7 @@ def spell_dispatcher() -> Callable[[Any], str]:
     def _(value: str) -> str:
         return f"Enchantment: {value}"
 
-    @dispatch.register
+    @dispatch.register(list)
     def _(value: list[Any]) -> str:
         return f"Multi-cast: {len(value)} spells"
     return dispatch
@@ -81,10 +83,9 @@ def spell_reducer_tester() -> None:
 def partial_enchanter_tester() -> None:
     enchanters = partial_enchanter(enchant)
     target = "Dragon"
-    print("Testing partial enchanter...")
-    print(f"Fire: {enchanters["fire"](target)}")
-    print(f"Ice: {enchanters["ice"](target)}")
-    print(f"Lighting: {enchanters["lighting"](target)}")
+    print(f"Fire: {enchanters['fire'](target)}")
+    print(f"Ice: {enchanters['ice'](target)}")
+    print(f"lightning: {enchanters['lightning'](target)}")
 
 
 def memoized_fibonacci_tester() -> None:

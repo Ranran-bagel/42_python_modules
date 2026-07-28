@@ -43,12 +43,12 @@ def enchantment_factory(enchantment_type: str) -> Factory:
 
 
 def memory_vault() -> VaultFunctions:
-    storage = dict()
+    storage: dict[str, object] = {}
 
     def store(key: str, value: object) -> None:
         storage.update({key: value})
 
-    def recall(key: str) -> str:
+    def recall(key: str) -> object:
         return storage.get(key, "Memory not found")
     return {"store": store, "recall": recall}
 

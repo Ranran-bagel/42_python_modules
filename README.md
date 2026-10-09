@@ -6,7 +6,7 @@
 
 This repository contains my solutions to the **Python Modules** from the 42 curriculum.
 
-The project introduces Python progressively, from basic syntax and data structures to more advanced concepts such as object-oriented programming, type safety, decorators, environment management, and data validation.
+The modules introduce Python progressively, from basic syntax and data structures to object-oriented programming, type safety, decorators, dependency management, and data validation.
 
 Main topics covered include:
 
@@ -28,20 +28,31 @@ Main topics covered include:
 Clone the repository:
 
 ```bash
-git clone <repository-url>
-cd python_modules
+git clone https://github.com/Ranran-bagel/42_python_modules.git
+cd 42_python_modules
 ```
 
-Navigate to the module and exercise you want to run:
+Each module is organized in its own directory:
+
+```text
+python_00/
+python_01/
+python_02/
+...
+```
+
+Navigate to the module and exercise you want to run. For example:
 
 ```bash
-cd PythonXX/ex00
+cd python_00/ex00
 python3 <script_name>.py
 ```
 
-Some modules require additional dependencies or an isolated Python environment.
+Exact execution and dependency requirements differ between modules. Check the corresponding module directory before running an exercise.
 
-### Virtual environment
+### Virtual Environment
+
+For exercises that require an isolated Python environment:
 
 ```bash
 python3 -m venv .venv
@@ -62,16 +73,14 @@ When Poetry is used:
 poetry install
 ```
 
-### Code checking
+### Code Checking
 
-Depending on the module, the code can be checked with:
+Depending on the module, code can be checked with:
 
 ```bash
 flake8 .
 mypy --strict .
 ```
-
-Exact execution and dependency requirements may differ between modules. Check the corresponding module directory before running an exercise.
 
 ## AI Usage
 
@@ -84,7 +93,7 @@ They were used to:
 - understand tools such as Poetry, virtual environments, `.env`, and Pydantic;
 - analyze error messages and suggest debugging approaches;
 - review code structure and identify possible improvements;
-- explain concepts such as decorators, `ParamSpec`, validation, and dependency management.
+- explain concepts such as decorators, `ParamSpec`, validation, and dependency management;
 - assist in drafting and structuring this README.
 
 AI-generated suggestions were reviewed and adapted before use. The final implementation was written, tested, and verified according to the requirements of the 42 curriculum.
